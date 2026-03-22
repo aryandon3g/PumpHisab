@@ -1,0 +1,5 @@
+{
+  "name": "Pump Hisab",
+  "description": "A utility app for petrol pump attendants to calculate daily sales, expected revenue, and cash differences.",
+  "requestFramePermissions": []
+}
