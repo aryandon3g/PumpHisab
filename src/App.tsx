@@ -1,13 +1,5 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import { useState, useEffect, useMemo, ChangeEvent } from 'react';
+import { useState, useEffect, useMemo, ChangeEvent, useCallback } from 'react';
 import { 
-  Droplet, 
-  IndianRupee, 
-  History, 
   Trash2, 
   RotateCcw, 
   Save, 
@@ -16,23 +8,14 @@ import {
   CheckCircle2,
   AlertCircle,
   TrendingUp,
-  Calendar,
-  Calculator,
-  LayoutDashboard
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-
-interface ShiftRecord {
-  id: string;
-  date: string;
-  rate: number;
-  opening: number;
-  closing: number;
-  volume: number;
-  expected: number;
-  collected: number;
-  difference: number;
-}
+import { ShiftRecord } from './types';
+import { Header } from './components/Header';
+import { StatsGrid } from './components/StatsGrid';
+import { HistoryCard } from './components/HistoryCard';
+import { MobileActionBar } from './components/MobileActionBar';
+import { IndianRupee, Droplet } from 'lucide-react';
 
 export default function App() {
   const [rate, setRate] = useState<string>('');
@@ -60,12 +43,12 @@ export default function App() {
     localStorage.setItem('pump_hisab_history_v2', JSON.stringify(history));
   }, [history]);
 
-  const handleNumberInput = (setter: (val: string) => void) => (e: ChangeEvent<HTMLInputElement>) => {
+  const handleNumberInput = useCallback((setter: (val: string) => void) => (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     if (val === '' || /^\d*\.?\d*$/.test(val)) {
       setter(val);
     }
-  };
+  }, []);
 
   const stats = useMemo(() => {
     const numRate = parseFloat(rate) || 0;
@@ -77,7 +60,6 @@ export default function App() {
     const expected = numRate * volume;
     const difference = numCollected - expected;
     
-    // Calculate daily totals for dashboard feel
     const today = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
     const todayRecords = history.filter(r => r.date.includes(today));
     const totalVolumeToday = todayRecords.reduce((acc, r) => acc + r.volume, 0);
@@ -101,9 +83,15 @@ export default function App() {
 
   const isShort = difference < -0.01;
   const isExcess = difference > 0.01;
-  const isExact = Math.abs(difference) <= 0.01 && expected > 0;
 
-  const handleSave = () => {
+  const handleReset = useCallback(() => {
+    setRate('');
+    setOpeningMeter('');
+    setClosingMeter('');
+    setCollected('');
+  }, []);
+
+  const handleSave = useCallback(() => {
     if (!isValid) return;
 
     const newRecord: ShiftRecord = {
@@ -120,120 +108,31 @@ export default function App() {
       difference: difference,
     };
 
-    setHistory([newRecord, ...history]);
+    setHistory(prev => [newRecord, ...prev]);
     handleReset();
-  };
+  }, [isValid, stats, volume, expected, difference, handleReset]);
 
-  const handleReset = () => {
-    setRate('');
-    setOpeningMeter('');
-    setClosingMeter('');
-    setCollected('');
-  };
-
-  const clearHistory = () => {
+  const clearHistory = useCallback(() => {
     if (window.confirm('Are you sure you want to clear all history?')) {
       setHistory([]);
     }
-  };
+  }, []);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-100">
-      {/* Responsive Header */}
-      <header className="bg-white/80 border-b border-slate-200 sticky top-0 z-50 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <motion.div 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center shadow-xl shadow-blue-500/20"
-            >
-              <Gauge className="w-7 h-7 text-white" />
-            </motion.div>
-            <div className="hidden sm:block">
-              <h1 className="text-xl font-display font-bold tracking-tight text-slate-900">Pump Hisab</h1>
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400">Professional Dashboard</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 sm:gap-6">
-            <nav className="flex items-center bg-slate-100 p-1.5 rounded-2xl">
-              <button 
-                onClick={() => setShowHistory(false)}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 btn-no-zoom ${
-                  !showHistory 
-                    ? 'bg-white text-blue-600 shadow-sm' 
-                    : 'text-slate-500 hover:text-slate-700'
-                }`}
-              >
-                <Calculator className="w-4 h-4" />
-                <span className="hidden md:inline">Calculator</span>
-              </button>
-              <button 
-                onClick={() => setShowHistory(true)}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 btn-no-zoom ${
-                  showHistory 
-                    ? 'bg-white text-slate-900 shadow-sm' 
-                    : 'text-slate-500 hover:text-slate-700'
-                }`}
-              >
-                <History className="w-4 h-4" />
-                <span className="hidden md:inline">History</span>
-                {history.length > 0 && (
-                  <span className="ml-1 bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded-full">
-                    {history.length}
-                  </span>
-                )}
-              </button>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header 
+        showHistory={showHistory} 
+        setShowHistory={setShowHistory} 
+        historyCount={history.length} 
+      />
 
       <main className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 pb-32">
-        {/* Dashboard Quick Stats (Desktop Only) */}
         {!showHistory && (
-          <div className="hidden lg:grid grid-cols-4 gap-6 mb-10">
-            <div className="bg-white p-6 rounded-3xl border border-slate-100 neo-shadow flex items-center gap-4">
-              <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
-                <Droplet className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Today's Volume</p>
-                <p className="text-xl font-display font-bold">{totalVolumeToday.toFixed(2)} Ltr</p>
-              </div>
-            </div>
-            <div className="bg-white p-6 rounded-3xl border border-slate-100 neo-shadow flex items-center gap-4">
-              <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600">
-                <IndianRupee className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Today's Revenue</p>
-                <p className="text-xl font-display font-bold">₹{totalRevenueToday.toLocaleString('en-IN')}</p>
-              </div>
-            </div>
-            <div className="bg-white p-6 rounded-3xl border border-slate-100 neo-shadow flex items-center gap-4">
-              <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-600">
-                <History className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total Records</p>
-                <p className="text-xl font-display font-bold">{history.length}</p>
-              </div>
-            </div>
-            <div className="bg-white p-6 rounded-3xl border border-slate-100 neo-shadow flex items-center gap-4">
-              <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600">
-                <Calendar className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Active Status</p>
-                <p className="text-xl font-display font-bold">Online</p>
-              </div>
-            </div>
-          </div>
+          <StatsGrid 
+            totalVolumeToday={totalVolumeToday} 
+            totalRevenueToday={totalRevenueToday} 
+            historyLength={history.length} 
+          />
         )}
 
         <AnimatePresence mode="wait">
@@ -492,27 +391,11 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Mobile Floating Action Bar */}
-              <div className="lg:hidden fixed bottom-8 left-6 right-6 z-40">
-                <div className="bg-white/90 backdrop-blur-2xl border border-white p-4 rounded-[2.5rem] shadow-2xl flex gap-4 ring-1 ring-slate-900/5">
-                  <motion.button
-                    whileTap={{ scale: 0.9 }}
-                    onClick={handleReset}
-                    className="w-16 h-16 flex items-center justify-center bg-slate-100 text-slate-600 rounded-[1.5rem] hover:bg-slate-200 transition-colors shadow-sm btn-no-zoom"
-                  >
-                    <RotateCcw className="w-7 h-7" />
-                  </motion.button>
-                  <motion.button
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleSave}
-                    disabled={!isValid}
-                    className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-[1.5rem] font-bold text-xl flex items-center justify-center gap-4 hover:from-blue-700 hover:to-blue-800 active:scale-[0.98] transition-all disabled:opacity-30 disabled:grayscale shadow-xl shadow-blue-500/20 btn-no-zoom"
-                  >
-                    <Save className="w-7 h-7" />
-                    Save Record
-                  </motion.button>
-                </div>
-              </div>
+              <MobileActionBar 
+                isValid={isValid} 
+                handleReset={handleReset} 
+                handleSave={handleSave} 
+              />
             </motion.div>
           ) : (
             <motion.div 
@@ -559,47 +442,7 @@ export default function App() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {history.map((record) => (
-                    <motion.div 
-                      layout
-                      key={record.id} 
-                      whileHover={{ y: -8 }}
-                      className="bg-white p-10 rounded-[3rem] neo-shadow border border-slate-100 group hover:border-blue-200 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500"
-                    >
-                      <div className="flex justify-between items-start mb-10">
-                        <div className="space-y-3">
-                          <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">
-                            <Calendar className="w-3.5 h-3.5" />
-                            {record.date}
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <span className="text-2xl font-display font-bold text-slate-900">{record.volume.toFixed(2)} Ltr</span>
-                          </div>
-                        </div>
-                        <div className={`px-6 py-4 rounded-[1.25rem] font-display font-bold text-2xl shadow-sm border ${
-                          record.difference < -0.01 ? 'bg-red-50 text-red-600 border-red-100' : 
-                          record.difference > 0.01 ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 
-                          'bg-blue-50 text-blue-600 border-blue-100'
-                        }`}>
-                          {record.difference < -0.01 ? '-' : record.difference > 0.01 ? '+' : ''}
-                          ₹{Math.abs(record.difference).toFixed(2)}
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-5 pt-8 border-t border-slate-50">
-                        <div className="flex justify-between items-center">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Meter Range</p>
-                          <p className="text-sm font-bold text-slate-700 bg-slate-50 px-3 py-1 rounded-lg">{record.opening} <ArrowRight className="inline w-3 h-3 mx-1 text-slate-300" /> {record.closing}</p>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Rate</p>
-                          <p className="text-sm font-bold text-slate-700">₹{record.rate}/L</p>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Revenue</p>
-                          <p className="text-sm font-bold text-slate-700">₹{record.collected.toLocaleString('en-IN')} / ₹{record.expected.toLocaleString('en-IN')}</p>
-                        </div>
-                      </div>
-                    </motion.div>
+                    <HistoryCard key={record.id} record={record} />
                   ))}
                 </div>
               )}
@@ -610,5 +453,3 @@ export default function App() {
     </div>
   );
 }
-
-
