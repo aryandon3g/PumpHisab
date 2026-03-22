@@ -20,9 +20,19 @@
 }
 
 @layer base {
-  body {
-    @apply bg-slate-50 text-slate-900 antialiased;
+  html, body {
+    @apply bg-slate-50 text-slate-900 antialiased overflow-x-hidden;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+}
+
+@layer utilities {
+  .btn-no-zoom {
+    touch-action: manipulation;
+    user-select: none;
   }
 }
 

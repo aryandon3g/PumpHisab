@@ -163,7 +163,7 @@ export default function App() {
             <nav className="flex items-center bg-slate-100 p-1.5 rounded-2xl">
               <button 
                 onClick={() => setShowHistory(false)}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 btn-no-zoom ${
                   !showHistory 
                     ? 'bg-white text-blue-600 shadow-sm' 
                     : 'text-slate-500 hover:text-slate-700'
@@ -174,7 +174,7 @@ export default function App() {
               </button>
               <button 
                 onClick={() => setShowHistory(true)}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 btn-no-zoom ${
                   showHistory 
                     ? 'bg-white text-slate-900 shadow-sm' 
                     : 'text-slate-500 hover:text-slate-700'
@@ -473,7 +473,7 @@ export default function App() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={handleReset}
-                      className="flex-1 py-5 bg-white border-2 border-slate-100 text-slate-600 rounded-[1.5rem] font-bold hover:bg-slate-50 hover:border-slate-200 transition-all flex items-center justify-center gap-3 shadow-sm"
+                      className="flex-1 py-5 bg-white border-2 border-slate-100 text-slate-600 rounded-[1.5rem] font-bold hover:bg-slate-50 hover:border-slate-200 transition-all flex items-center justify-center gap-3 shadow-sm btn-no-zoom"
                     >
                       <RotateCcw className="w-5 h-5" />
                       Reset
@@ -483,7 +483,7 @@ export default function App() {
                       whileTap={isValid ? { scale: 0.98 } : {}}
                       onClick={handleSave}
                       disabled={!isValid}
-                      className="flex-[2] py-5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-[1.5rem] font-bold hover:from-blue-700 hover:to-blue-800 disabled:opacity-30 transition-all shadow-xl shadow-blue-500/20 flex items-center justify-center gap-3"
+                      className="flex-[2] py-5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-[1.5rem] font-bold hover:from-blue-700 hover:to-blue-800 disabled:opacity-30 transition-all shadow-xl shadow-blue-500/20 flex items-center justify-center gap-3 btn-no-zoom"
                     >
                       <Save className="w-6 h-6" />
                       Save Record
@@ -494,11 +494,11 @@ export default function App() {
 
               {/* Mobile Floating Action Bar */}
               <div className="lg:hidden fixed bottom-8 left-6 right-6 z-40">
-                <div className="bg-white/90 backdrop-blur-2xl border border-white p-4 rounded-[2.5rem] shadow-2xl flex gap-4">
+                <div className="bg-white/90 backdrop-blur-2xl border border-white p-4 rounded-[2.5rem] shadow-2xl flex gap-4 ring-1 ring-slate-900/5">
                   <motion.button
                     whileTap={{ scale: 0.9 }}
                     onClick={handleReset}
-                    className="w-16 h-16 flex items-center justify-center bg-slate-100 text-slate-600 rounded-[1.5rem] hover:bg-slate-200 transition-colors shadow-sm"
+                    className="w-16 h-16 flex items-center justify-center bg-slate-100 text-slate-600 rounded-[1.5rem] hover:bg-slate-200 transition-colors shadow-sm btn-no-zoom"
                   >
                     <RotateCcw className="w-7 h-7" />
                   </motion.button>
@@ -506,7 +506,7 @@ export default function App() {
                     whileTap={{ scale: 0.95 }}
                     onClick={handleSave}
                     disabled={!isValid}
-                    className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-[1.5rem] font-bold text-xl flex items-center justify-center gap-4 hover:from-blue-700 hover:to-blue-800 active:scale-[0.98] transition-all disabled:opacity-30 disabled:grayscale shadow-xl shadow-blue-500/20"
+                    className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-[1.5rem] font-bold text-xl flex items-center justify-center gap-4 hover:from-blue-700 hover:to-blue-800 active:scale-[0.98] transition-all disabled:opacity-30 disabled:grayscale shadow-xl shadow-blue-500/20 btn-no-zoom"
                   >
                     <Save className="w-7 h-7" />
                     Save Record
@@ -540,7 +540,7 @@ export default function App() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={clearHistory}
-                    className="text-xs font-bold text-red-500 hover:bg-red-50 px-6 py-4 rounded-2xl transition-all flex items-center justify-center gap-3 border-2 border-red-100 shadow-sm"
+                    className="text-xs font-bold text-red-500 hover:bg-red-50 px-6 py-4 rounded-2xl transition-all flex items-center justify-center gap-3 border-2 border-red-100 shadow-sm btn-no-zoom"
                   >
                     <Trash2 className="w-5 h-5" />
                     Clear History
