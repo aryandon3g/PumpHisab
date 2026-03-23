@@ -8,6 +8,9 @@ import {
   CheckCircle2,
   AlertCircle,
   TrendingUp,
+  Calculator,
+  Share2,
+  History,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ShiftRecord } from './types';
@@ -16,6 +19,8 @@ import { StatsGrid } from './components/StatsGrid';
 import { HistoryCard } from './components/HistoryCard';
 import { MobileActionBar } from './components/MobileActionBar';
 import { IndianRupee, Droplet } from 'lucide-react';
+import { CashCounter } from './components/CashCounter';
+import { StandardCalculator } from './components/StandardCalculator';
 
 export default function App() {
   const [rate, setRate] = useState<string>('');
@@ -25,6 +30,8 @@ export default function App() {
   
   const [history, setHistory] = useState<ShiftRecord[]>([]);
   const [showHistory, setShowHistory] = useState(false);
+  const [isCashCounterOpen, setIsCashCounterOpen] = useState(false);
+  const [isStandardCalculatorOpen, setIsStandardCalculatorOpen] = useState(false);
 
   // Load history on mount
   useEffect(() => {
@@ -118,6 +125,31 @@ export default function App() {
     }
   }, []);
 
+  const handleShare = useCallback((record: ShiftRecord | any) => {
+    const text = `*Pump Hisab Report*\n` +
+      `Date: ${record.date}\n` +
+      `Volume: ${record.volume.toFixed(2)} Ltr\n` +
+      `Rate: ₹${record.rate}/L\n` +
+      `Expected: ₹${record.expected.toFixed(2)}\n` +
+      `Collected: ₹${record.collected.toFixed(2)}\n` +
+      `Difference: ${record.difference < 0 ? '-' : '+'}${Math.abs(record.difference).toFixed(2)} ₹\n` +
+      `Status: ${record.difference < -0.01 ? 'Shortage' : record.difference > 0.01 ? 'Excess' : 'Perfect'}`;
+
+    if (navigator.share) {
+      navigator.share({
+        title: 'Pump Hisab Report',
+        text: text,
+      }).catch(console.error);
+    } else {
+      navigator.clipboard.writeText(text);
+      alert('Report copied to clipboard!');
+    }
+  }, []);
+
+  const handleApplyCash = (total: number) => {
+    setCollected(total.toString());
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-100">
       <Header 
@@ -177,9 +209,18 @@ export default function App() {
                   {/* Collected Card */}
                   <motion.div 
                     whileHover={{ y: -4 }}
-                    className="bg-white p-8 rounded-[2rem] neo-shadow-lg border border-slate-100 group focus-within:border-emerald-400 transition-all"
+                    className="bg-white p-8 rounded-[2rem] neo-shadow-lg border border-slate-100 group focus-within:border-emerald-400 transition-all relative"
                   >
-                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-[0.15em] mb-4">Cash Collected (₹)</label>
+                    <div className="flex justify-between items-start mb-4">
+                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-[0.15em]">Cash Collected (₹)</label>
+                      <button 
+                        onClick={() => setIsCashCounterOpen(true)}
+                        className="flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-100 transition-colors"
+                      >
+                        <Calculator className="w-3 h-3" />
+                        Cash Counter
+                      </button>
+                    </div>
                     <div className="flex items-center gap-4">
                       <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 group-focus-within:bg-emerald-600 group-focus-within:text-white transition-all duration-300">
                         <IndianRupee className="w-7 h-7" />
@@ -344,6 +385,22 @@ export default function App() {
                           </span>
                         </div>
                       </div>
+                      {isValid && (
+                        <button 
+                          onClick={() => handleShare({
+                            date: new Date().toLocaleString('en-IN'),
+                            volume,
+                            rate: stats.numRate,
+                            expected,
+                            collected: stats.numCollected,
+                            difference
+                          })}
+                          className="p-4 bg-white/50 hover:bg-white rounded-2xl text-slate-600 transition-all shadow-sm"
+                          title="Share Report"
+                        >
+                          <Share2 className="w-5 h-5" />
+                        </button>
+                      )}
                     </div>
                     
                     <div className="flex items-baseline gap-3">
@@ -395,6 +452,14 @@ export default function App() {
                 isValid={isValid} 
                 handleReset={handleReset} 
                 handleSave={handleSave} 
+                handleShare={() => handleShare({
+                  date: new Date().toLocaleString('en-IN'),
+                  volume,
+                  rate: stats.numRate,
+                  expected,
+                  collected: stats.numCollected,
+                  difference
+                })}
               />
             </motion.div>
           ) : (
@@ -442,13 +507,34 @@ export default function App() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {history.map((record) => (
-                    <HistoryCard key={record.id} record={record} />
+                    <HistoryCard key={record.id} record={record} onShare={handleShare} />
                   ))}
                 </div>
               )}
             </motion.div>
           )}
         </AnimatePresence>
+
+        <CashCounter 
+          isOpen={isCashCounterOpen}
+          onClose={() => setIsCashCounterOpen(false)}
+          onApply={handleApplyCash}
+        />
+
+        <StandardCalculator 
+          isOpen={isStandardCalculatorOpen}
+          onClose={() => setIsStandardCalculatorOpen(false)}
+        />
+
+        {/* Floating Calculator Button */}
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setIsStandardCalculatorOpen(true)}
+          className="fixed bottom-32 right-6 lg:bottom-8 lg:right-8 w-16 h-16 bg-slate-900 text-white rounded-full shadow-2xl flex items-center justify-center z-50 hover:bg-slate-800 transition-colors"
+        >
+          <Calculator className="w-7 h-7" />
+        </motion.button>
       </main>
     </div>
   );

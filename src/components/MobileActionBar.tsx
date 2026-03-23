@@ -1,13 +1,14 @@
 import { motion } from 'motion/react';
-import { RotateCcw, Save } from 'lucide-react';
+import { RotateCcw, Save, Share2 } from 'lucide-react';
 
 interface MobileActionBarProps {
   isValid: boolean;
   handleReset: () => void;
   handleSave: () => void;
+  handleShare?: () => void;
 }
 
-export const MobileActionBar = ({ isValid, handleReset, handleSave }: MobileActionBarProps) => (
+export const MobileActionBar = ({ isValid, handleReset, handleSave, handleShare }: MobileActionBarProps) => (
   <div className="lg:hidden fixed bottom-8 left-6 right-6 z-40">
     <div className="bg-white/90 backdrop-blur-2xl border border-white p-4 rounded-[2.5rem] shadow-2xl flex gap-4 ring-1 ring-slate-900/5">
       <motion.button
@@ -17,6 +18,15 @@ export const MobileActionBar = ({ isValid, handleReset, handleSave }: MobileActi
       >
         <RotateCcw className="w-7 h-7" />
       </motion.button>
+      {handleShare && isValid && (
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          onClick={handleShare}
+          className="w-16 h-16 flex items-center justify-center bg-blue-50 text-blue-600 rounded-[1.5rem] hover:bg-blue-100 transition-colors shadow-sm btn-no-zoom"
+        >
+          <Share2 className="w-7 h-7" />
+        </motion.button>
+      )}
       <motion.button
         whileTap={{ scale: 0.95 }}
         onClick={handleSave}

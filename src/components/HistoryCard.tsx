@@ -1,13 +1,14 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Calendar, ArrowRight } from 'lucide-react';
+import { Calendar, ArrowRight, Share2 } from 'lucide-react';
 import { ShiftRecord } from '../types';
 
 interface HistoryCardProps {
   record: ShiftRecord;
+  onShare: (record: ShiftRecord) => void;
 }
 
-export const HistoryCard = React.memo(({ record }: HistoryCardProps) => (
+export const HistoryCard = React.memo(({ record, onShare }: HistoryCardProps) => (
   <motion.div 
     layout
     initial={{ opacity: 0, scale: 0.95 }}
@@ -25,13 +26,22 @@ export const HistoryCard = React.memo(({ record }: HistoryCardProps) => (
           <span className="text-2xl font-display font-bold text-slate-900">{record.volume.toFixed(2)} Ltr</span>
         </div>
       </div>
-      <div className={`px-6 py-4 rounded-[1.25rem] font-display font-bold text-2xl shadow-sm border ${
-        record.difference < -0.01 ? 'bg-red-50 text-red-600 border-red-100' : 
-        record.difference > 0.01 ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 
-        'bg-blue-50 text-blue-600 border-blue-100'
-      }`}>
-        {record.difference < -0.01 ? '-' : record.difference > 0.01 ? '+' : ''}
-        ₹{Math.abs(record.difference).toFixed(2)}
+      <div className="flex flex-col items-end gap-3">
+        <div className={`px-6 py-4 rounded-[1.25rem] font-display font-bold text-2xl shadow-sm border ${
+          record.difference < -0.01 ? 'bg-red-50 text-red-600 border-red-100' : 
+          record.difference > 0.01 ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 
+          'bg-blue-50 text-blue-600 border-blue-100'
+        }`}>
+          {record.difference < -0.01 ? '-' : record.difference > 0.01 ? '+' : ''}
+          ₹{Math.abs(record.difference).toFixed(2)}
+        </div>
+        <button 
+          onClick={() => onShare(record)}
+          className="p-3 bg-slate-50 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all"
+          title="Share Record"
+        >
+          <Share2 className="w-4 h-4" />
+        </button>
       </div>
     </div>
     
