@@ -15,11 +15,12 @@ export const CashCounter = ({ isOpen, onClose, onApply }: CashCounterProps) => {
   const [counts, setCounts] = useState<{ [key: number]: string }>(
     DENOMINATIONS.reduce((acc, d) => ({ ...acc, [d]: '' }), {})
   );
+  const [manualAmount, setManualAmount] = useState<string>('');
 
   const total = DENOMINATIONS.reduce((acc, d) => {
     const count = parseInt(counts[d]) || 0;
     return acc + (d * count);
-  }, 0);
+  }, 0) + (parseFloat(manualAmount) || 0);
 
   const handleCountChange = (denom: number, value: string) => {
     if (value === '' || /^\d+$/.test(value)) {
@@ -29,6 +30,7 @@ export const CashCounter = ({ isOpen, onClose, onApply }: CashCounterProps) => {
 
   const handleReset = () => {
     setCounts(DENOMINATIONS.reduce((acc, d) => ({ ...acc, [d]: '' }), {}));
+    setManualAmount('');
   };
 
   const handleShareBreakdown = () => {
@@ -39,6 +41,12 @@ export const CashCounter = ({ isOpen, onClose, onApply }: CashCounterProps) => {
         breakdown += `₹${d} x ${count} = ₹${(d * count).toLocaleString('en-IN')}\n`;
       }
     });
+    
+    const manual = parseFloat(manualAmount) || 0;
+    if (manual > 0) {
+      breakdown += `Manual Addition: ₹${manual.toLocaleString('en-IN')}\n`;
+    }
+    
     breakdown += `*Total: ₹${total.toLocaleString('en-IN')}*`;
 
     if (navigator.share) {
@@ -110,6 +118,31 @@ export const CashCounter = ({ isOpen, onClose, onApply }: CashCounterProps) => {
             </div>
 
             <div className="flex-1 overflow-y-auto p-8 space-y-4 pb-32">
+              {/* Manual Entry Card */}
+              <div className="bg-emerald-50 p-6 rounded-3xl border border-emerald-100 mb-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-emerald-600 shadow-sm">
+                    <IndianRupee className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Manual Addition (Extra Cash)</span>
+                    <input
+                      type="text"
+                      inputMode="decimal"
+                      value={manualAmount}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (val === '' || /^\d*\.?\d*$/.test(val)) {
+                          setManualAmount(val);
+                        }
+                      }}
+                      placeholder="Enter amount directly..."
+                      className="w-full bg-transparent text-3xl font-display font-bold outline-none placeholder:text-emerald-200 text-emerald-900"
+                    />
+                  </div>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {DENOMINATIONS.map((denom) => (
                   <div key={denom} className="flex items-center gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100 group focus-within:border-emerald-200 focus-within:bg-white transition-all">
