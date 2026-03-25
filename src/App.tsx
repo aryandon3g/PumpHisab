@@ -151,7 +151,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-100">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-blue-100">
       <Header 
         showHistory={showHistory} 
         setShowHistory={setShowHistory} 
@@ -175,32 +175,32 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-8"
+              className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8"
             >
               {/* Left Column: Inputs */}
-              <div className="lg:col-span-7 space-y-8">
+              <div className="lg:col-span-7 space-y-6 sm:space-y-8">
                 <div className="flex items-center gap-3 px-1">
-                  <div className="w-2 h-6 bg-blue-600 rounded-full" />
-                  <h2 className="text-lg font-display font-bold text-slate-800">Shift Configuration</h2>
+                  <div className="w-1.5 h-5 bg-slate-900 rounded-full" />
+                  <h2 className="text-base font-display font-extrabold text-slate-800 uppercase tracking-wider">Shift Configuration</h2>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   {/* Rate Card */}
                   <motion.div 
-                    whileHover={{ y: -4 }}
-                    className="bg-white p-8 rounded-[2rem] neo-shadow-lg border border-slate-100 group focus-within:border-blue-400 transition-all"
+                    whileHover={{ y: -2 }}
+                    className="neo-card p-6 sm:p-8 group focus-within:border-slate-300 transition-all"
                   >
-                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-[0.15em] mb-4">Current Rate (₹/Ltr)</label>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4">Current Rate (₹/Ltr)</label>
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 group-focus-within:bg-blue-600 group-focus-within:text-white transition-all duration-300">
-                        <IndianRupee className="w-7 h-7" />
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-focus-within:bg-slate-900 group-focus-within:text-white transition-all duration-300">
+                        <IndianRupee className="w-6 h-6 sm:w-7 sm:h-7" />
                       </div>
                       <input
                         type="text"
                         inputMode="decimal"
                         value={rate}
                         onChange={handleNumberInput(setRate)}
-                        className="flex-1 text-4xl font-display font-bold outline-none placeholder:text-slate-200 bg-transparent"
+                        className="flex-1 text-3xl sm:text-4xl font-display font-extrabold outline-none placeholder:text-slate-200 bg-transparent"
                         placeholder="0.00"
                       />
                     </div>
@@ -208,29 +208,29 @@ export default function App() {
 
                   {/* Collected Card */}
                   <motion.div 
-                    whileHover={{ y: -4 }}
-                    className="bg-white p-8 rounded-[2rem] neo-shadow-lg border border-slate-100 group focus-within:border-emerald-400 transition-all relative"
+                    whileHover={{ y: -2 }}
+                    className="neo-card p-6 sm:p-8 group focus-within:border-slate-300 transition-all relative"
                   >
                     <div className="flex justify-between items-start mb-4">
-                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-[0.15em]">Cash Collected (₹)</label>
+                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Cash Collected (₹)</label>
                       <button 
                         onClick={() => setIsCashCounterOpen(true)}
-                        className="flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-100 transition-colors"
+                        className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-slate-200 transition-colors"
                       >
                         <Calculator className="w-3 h-3" />
-                        Cash Counter
+                        Counter
                       </button>
                     </div>
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 group-focus-within:bg-emerald-600 group-focus-within:text-white transition-all duration-300">
-                        <IndianRupee className="w-7 h-7" />
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-focus-within:bg-slate-900 group-focus-within:text-white transition-all duration-300">
+                        <IndianRupee className="w-6 h-6 sm:w-7 sm:h-7" />
                       </div>
                       <input
                         type="text"
                         inputMode="decimal"
                         value={collected}
                         onChange={handleNumberInput(setCollected)}
-                        className="flex-1 text-4xl font-display font-bold outline-none placeholder:text-slate-200 bg-transparent"
+                        className="flex-1 text-3xl sm:text-4xl font-display font-extrabold outline-none placeholder:text-slate-200 bg-transparent"
                         placeholder="0.00"
                       />
                     </div>
@@ -238,60 +238,57 @@ export default function App() {
                 </div>
 
                 {/* Meter Section */}
-                <div className="bg-white p-10 rounded-[3rem] neo-shadow-lg border border-slate-100 space-y-10 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-full -mr-32 -mt-32 blur-3xl opacity-50" />
-                  
+                <div className="neo-card p-6 sm:p-10 space-y-8 sm:space-y-10 relative overflow-hidden">
                   <div className="relative z-10 flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-white shadow-lg">
-                        <Gauge className="w-6 h-6" />
+                      <div className="w-11 h-11 bg-slate-900 rounded-xl flex items-center justify-center text-white shadow-lg">
+                        <Gauge className="w-5 h-5" />
                       </div>
                       <div>
-                        <label className="text-sm font-bold text-slate-800 uppercase tracking-wider">Meter Readings</label>
-                        <p className="text-xs text-slate-400 font-medium">Enter opening and closing values</p>
+                        <label className="text-sm font-display font-extrabold text-slate-800 uppercase tracking-wider leading-none">Meter Readings</label>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Opening & Closing</p>
                       </div>
                     </div>
-                    <div className="hidden sm:flex px-4 py-1.5 bg-blue-50 rounded-full text-[10px] font-bold text-blue-600 uppercase tracking-widest border border-blue-100">Automatic Calculation</div>
                   </div>
                   
-                  <div className="relative z-10 grid grid-cols-1 sm:grid-cols-11 items-center gap-6">
-                    <div className="sm:col-span-5 space-y-3">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Opening Reading</span>
+                  <div className="relative z-10 grid grid-cols-1 sm:grid-cols-11 items-center gap-4 sm:gap-6">
+                    <div className="sm:col-span-5 space-y-2">
+                      <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Opening</span>
                       <input
                         type="text"
                         inputMode="decimal"
                         value={openingMeter}
                         onChange={handleNumberInput(setOpeningMeter)}
-                        className="w-full bg-slate-50 px-8 py-6 rounded-[1.5rem] text-3xl font-display font-bold outline-none focus:ring-8 focus:ring-blue-500/5 focus:bg-white border-2 border-transparent focus:border-blue-100 transition-all"
+                        className="w-full bg-slate-50 px-6 py-4 sm:px-8 sm:py-6 rounded-2xl sm:rounded-[1.5rem] text-2xl sm:text-3xl font-display font-extrabold outline-none focus:bg-white border-2 border-transparent focus:border-slate-200 transition-all"
                         placeholder="0000.0"
                       />
                     </div>
                     <div className="sm:col-span-1 flex justify-center">
-                      <div className="w-12 h-12 rounded-full bg-white border border-slate-100 shadow-sm flex items-center justify-center">
-                        <ArrowRight className="w-6 h-6 text-slate-300" />
+                      <div className="w-10 h-10 rounded-full bg-white border border-slate-100 shadow-sm flex items-center justify-center">
+                        <ArrowRight className="w-5 h-5 text-slate-300" />
                       </div>
                     </div>
-                    <div className="sm:col-span-5 space-y-3">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Closing Reading</span>
+                    <div className="sm:col-span-5 space-y-2">
+                      <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Closing</span>
                       <input
                         type="text"
                         inputMode="decimal"
                         value={closingMeter}
                         onChange={handleNumberInput(setClosingMeter)}
-                        className="w-full bg-slate-50 px-8 py-6 rounded-[1.5rem] text-3xl font-display font-bold outline-none focus:ring-8 focus:ring-blue-500/5 focus:bg-white border-2 border-transparent focus:border-blue-100 transition-all"
+                        className="w-full bg-slate-50 px-6 py-4 sm:px-8 sm:py-6 rounded-2xl sm:rounded-[1.5rem] text-2xl sm:text-3xl font-display font-extrabold outline-none focus:bg-white border-2 border-transparent focus:border-slate-200 transition-all"
                         placeholder="0000.0"
                       />
                     </div>
                   </div>
 
-                  <div className="relative z-10 pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-6">
+                  <div className="relative z-10 pt-6 sm:pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 bg-blue-50 rounded-[1.25rem] flex items-center justify-center text-blue-600 shadow-inner">
-                        <Droplet className="w-7 h-7" />
+                      <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400">
+                        <Droplet className="w-6 h-6" />
                       </div>
                       <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Calculated Volume</p>
-                        <p className="text-base font-bold text-slate-600">Total Liters Sold</p>
+                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em]">Calculated Volume</p>
+                        <p className="text-sm font-bold text-slate-600">Total Liters Sold</p>
                       </div>
                     </div>
                     <div className="text-center sm:text-right">
@@ -299,58 +296,57 @@ export default function App() {
                         key={volume}
                         initial={{ scale: 0.95, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        className="text-5xl font-display font-bold text-slate-900"
+                        className="text-4xl sm:text-5xl font-display font-extrabold text-slate-900"
                       >
                         {volume.toFixed(2)}
                       </motion.span>
-                      <span className="text-xl font-bold text-slate-400 ml-3">Ltr</span>
+                      <span className="text-lg font-bold text-slate-400 ml-2">Ltr</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Right Column: Summary */}
-              <div className="lg:col-span-5 space-y-8">
+              <div className="lg:col-span-5 space-y-6 sm:space-y-8">
                 <div className="flex items-center gap-3 px-1">
-                  <div className="w-2 h-6 bg-emerald-500 rounded-full" />
-                  <h2 className="text-lg font-display font-bold text-slate-800">Live Analytics</h2>
+                  <div className="w-1.5 h-5 bg-emerald-500 rounded-full" />
+                  <h2 className="text-base font-display font-extrabold text-slate-800 uppercase tracking-wider">Live Analytics</h2>
                 </div>
 
-                <div className="space-y-6 sticky top-28">
+                <div className="space-y-4 sm:space-y-6 sticky top-28">
                   {/* Expected Amount Card */}
                   <motion.div 
                     layout
-                    className="bg-slate-900 rounded-[3rem] p-10 text-white shadow-2xl shadow-slate-300 relative overflow-hidden group"
+                    className="bg-slate-900 rounded-[2.5rem] p-8 sm:p-10 text-white shadow-2xl shadow-slate-900/10 relative overflow-hidden group"
                   >
-                    <div className="absolute top-0 right-0 w-72 h-72 bg-blue-500/20 rounded-full -mr-36 -mt-36 blur-[100px] group-hover:bg-blue-500/30 transition-colors duration-700" />
-                    <div className="absolute bottom-0 left-0 w-48 h-48 bg-emerald-500/10 rounded-full -ml-24 -mb-24 blur-[80px]" />
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl" />
                     
-                    <div className="relative z-10 space-y-8">
+                    <div className="relative z-10 space-y-6 sm:space-y-8">
                       <div className="flex justify-between items-start">
-                        <div className="space-y-2">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em]">Expected Revenue</p>
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.3em]">Expected Revenue</p>
                           <motion.h3 
                             key={expected}
                             initial={{ y: 10, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
-                            className="text-6xl font-display font-bold tracking-tight"
+                            className="text-4xl sm:text-5xl font-display font-extrabold tracking-tight"
                           >
-                            ₹{expected.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            ₹{expected.toLocaleString('en-IN', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
                           </motion.h3>
                         </div>
-                        <div className="bg-white/10 p-5 rounded-[1.5rem] backdrop-blur-xl border border-white/10 shadow-inner">
-                          <TrendingUp className="w-10 h-10 text-emerald-400" />
+                        <div className="bg-white/10 p-4 rounded-2xl backdrop-blur-xl border border-white/10">
+                          <TrendingUp className="w-8 h-8 text-emerald-400" />
                         </div>
                       </div>
                       
-                      <div className="flex items-center gap-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest pt-4 border-t border-white/5">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
-                          Real-time
+                      <div className="flex items-center gap-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest pt-4 border-t border-white/5">
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                          Live
                         </div>
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.5)]" />
-                          {volume.toFixed(2)} Ltr Sold
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                          {volume.toFixed(1)}L Sold
                         </div>
                       </div>
                     </div>
@@ -359,29 +355,29 @@ export default function App() {
                   {/* Difference Status Card */}
                   <motion.div 
                     layout
-                    className={`rounded-[3rem] p-10 border-2 transition-all duration-700 relative overflow-hidden ${
+                    className={`rounded-[2.5rem] p-8 sm:p-10 border transition-all duration-500 relative overflow-hidden ${
                     !isValid ? 'bg-white border-slate-100 opacity-60' :
-                    isShort ? 'bg-red-50 border-red-100 shadow-2xl shadow-red-500/5' : 
-                    isExcess ? 'bg-emerald-50 border-emerald-100 shadow-2xl shadow-emerald-500/5' : 
-                    'bg-blue-50 border-blue-100 shadow-2xl shadow-blue-500/5'
+                    isShort ? 'bg-red-50 border-red-100' : 
+                    isExcess ? 'bg-emerald-50 border-emerald-100' : 
+                    'bg-blue-50 border-blue-100'
                   }`}>
-                    <div className="flex justify-between items-center mb-8">
-                      <div className="flex items-center gap-4">
-                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm ${
+                    <div className="flex justify-between items-center mb-6 sm:mb-8">
+                      <div className="flex items-center gap-3 sm:gap-4">
+                        <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center ${
                           isShort ? 'bg-red-100 text-red-600' : 
                           isExcess ? 'bg-emerald-100 text-emerald-600' : 
                           'bg-blue-100 text-blue-600'
                         }`}>
-                          {isShort ? <AlertCircle className="w-8 h-8" /> : 
-                           isExcess ? <TrendingUp className="w-8 h-8" /> : 
-                           <CheckCircle2 className="w-8 h-8" />}
+                          {isShort ? <AlertCircle className="w-7 h-7 sm:w-8 sm:h-8" /> : 
+                           isExcess ? <TrendingUp className="w-7 h-7 sm:w-8 sm:h-8" /> : 
+                           <CheckCircle2 className="w-7 h-7 sm:w-8 sm:h-8" />}
                         </div>
                         <div>
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Current Status</p>
-                          <span className={`text-base font-bold uppercase tracking-widest ${
+                          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Status</p>
+                          <span className={`text-xs sm:text-sm font-bold uppercase tracking-widest ${
                             isShort ? 'text-red-600' : isExcess ? 'text-emerald-600' : 'text-blue-600'
                           }`}>
-                            {isShort ? 'Shortage (Minus)' : isExcess ? 'Excess (Plus)' : 'Perfect Tally'}
+                            {isShort ? 'Shortage' : isExcess ? 'Excess' : 'Perfect'}
                           </span>
                         </div>
                       </div>
@@ -395,43 +391,35 @@ export default function App() {
                             collected: stats.numCollected,
                             difference
                           })}
-                          className="p-4 bg-white/50 hover:bg-white rounded-2xl text-slate-600 transition-all shadow-sm"
-                          title="Share Report"
+                          className="p-3 bg-white/50 hover:bg-white rounded-xl text-slate-600 transition-all border border-slate-200/50"
                         >
-                          <Share2 className="w-5 h-5" />
+                          <Share2 className="w-4 h-4" />
                         </button>
                       )}
                     </div>
                     
-                    <div className="flex items-baseline gap-3">
+                    <div className="flex items-baseline gap-2">
                       <motion.span 
                         key={difference}
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        className={`text-7xl font-display font-bold tracking-tighter ${
+                        className={`text-5xl sm:text-6xl font-display font-extrabold tracking-tighter ${
                         isShort ? 'text-red-600' : isExcess ? 'text-emerald-600' : 'text-blue-600'
                       }`}>
-                        {isShort ? '-' : isExcess ? '+' : ''}₹{Math.abs(difference).toFixed(2)}
+                        {isShort ? '-' : isExcess ? '+' : ''}₹{Math.abs(difference).toFixed(1)}
                       </motion.span>
                     </div>
-                    
-                    {!isValid && (
-                      <div className="mt-6 flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest italic">
-                        <AlertCircle className="w-4 h-4" />
-                        Awaiting Inputs...
-                      </div>
-                    )}
                   </motion.div>
 
                   {/* Quick Actions (Desktop Only) */}
-                  <div className="hidden lg:flex gap-4 pt-6">
+                  <div className="hidden lg:flex gap-4 pt-4">
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={handleReset}
-                      className="flex-1 py-5 bg-white border-2 border-slate-100 text-slate-600 rounded-[1.5rem] font-bold hover:bg-slate-50 hover:border-slate-200 transition-all flex items-center justify-center gap-3 shadow-sm btn-no-zoom"
+                      className="flex-1 py-4 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold hover:bg-slate-50 transition-all flex items-center justify-center gap-2 text-sm btn-no-zoom"
                     >
-                      <RotateCcw className="w-5 h-5" />
+                      <RotateCcw className="w-4 h-4" />
                       Reset
                     </motion.button>
                     <motion.button
@@ -439,9 +427,9 @@ export default function App() {
                       whileTap={isValid ? { scale: 0.98 } : {}}
                       onClick={handleSave}
                       disabled={!isValid}
-                      className="flex-[2] py-5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-[1.5rem] font-bold hover:from-blue-700 hover:to-blue-800 disabled:opacity-30 transition-all shadow-xl shadow-blue-500/20 flex items-center justify-center gap-3 btn-no-zoom"
+                      className="flex-[2] py-4 bg-slate-900 text-white rounded-2xl font-bold disabled:opacity-30 transition-all shadow-lg shadow-slate-900/10 flex items-center justify-center gap-2 text-sm btn-no-zoom"
                     >
-                      <Save className="w-6 h-6" />
+                      <Save className="w-5 h-5" />
                       Save Record
                     </motion.button>
                   </div>
@@ -468,19 +456,16 @@ export default function App() {
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.98 }}
-              className="space-y-10"
+              className="space-y-8"
             >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-                <div className="flex items-center gap-5">
-                  <div className="w-16 h-16 bg-slate-900 rounded-[1.5rem] flex items-center justify-center text-white shadow-2xl shadow-slate-900/20">
-                    <History className="w-8 h-8" />
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 bg-slate-900 rounded-2xl flex items-center justify-center text-white shadow-xl">
+                    <History className="w-7 h-7" />
                   </div>
                   <div>
-                    <h2 className="text-3xl font-display font-bold text-slate-900">Shift History</h2>
-                    <div className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em]">All Saved Records</p>
-                    </div>
+                    <h2 className="text-2xl font-display font-extrabold text-slate-900">Shift History</h2>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em] mt-1">All Saved Records</p>
                   </div>
                 </div>
                 {history.length > 0 && (
@@ -488,24 +473,24 @@ export default function App() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={clearHistory}
-                    className="text-xs font-bold text-red-500 hover:bg-red-50 px-6 py-4 rounded-2xl transition-all flex items-center justify-center gap-3 border-2 border-red-100 shadow-sm btn-no-zoom"
+                    className="text-[10px] font-bold text-red-500 hover:bg-red-50 px-5 py-3 rounded-xl transition-all flex items-center justify-center gap-2 border border-red-100 uppercase tracking-widest btn-no-zoom"
                   >
-                    <Trash2 className="w-5 h-5" />
-                    Clear History
+                    <Trash2 className="w-4 h-4" />
+                    Clear All
                   </motion.button>
                 )}
               </div>
 
               {history.length === 0 ? (
-                <div className="text-center py-40 bg-white rounded-[4rem] border-2 border-slate-100 border-dashed neo-shadow">
-                  <div className="w-32 h-32 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
-                    <History className="w-16 h-16 text-slate-200" />
+                <div className="text-center py-32 neo-card border-dashed">
+                  <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <History className="w-10 h-10 text-slate-200" />
                   </div>
-                  <h3 className="text-2xl font-display font-bold text-slate-900">No records found</h3>
-                  <p className="text-sm text-slate-400 mt-3 max-w-[280px] mx-auto font-medium">Your saved shift calculations will be listed here for future reference.</p>
+                  <h3 className="text-xl font-display font-bold text-slate-900">No records found</h3>
+                  <p className="text-xs text-slate-400 mt-2 max-w-[240px] mx-auto font-medium">Your saved shift calculations will appear here.</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {history.map((record) => (
                     <HistoryCard key={record.id} record={record} onShare={handleShare} />
                   ))}
@@ -531,9 +516,9 @@ export default function App() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => setIsStandardCalculatorOpen(true)}
-          className="fixed bottom-32 right-6 lg:bottom-8 lg:right-8 w-16 h-16 bg-slate-900 text-white rounded-full shadow-2xl flex items-center justify-center z-50 hover:bg-slate-800 transition-colors"
+          className="fixed bottom-32 right-6 lg:bottom-8 lg:right-8 w-14 h-14 bg-slate-900 text-white rounded-2xl shadow-2xl flex items-center justify-center z-50 hover:bg-slate-800 transition-colors"
         >
-          <Calculator className="w-7 h-7" />
+          <Calculator className="w-6 h-6" />
         </motion.button>
       </main>
     </div>

@@ -76,43 +76,52 @@ export const StandardCalculator = ({ isOpen, onClose }: StandardCalculatorProps)
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[80]"
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[80]"
           />
           <motion.div
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] bg-white rounded-[2.5rem] shadow-2xl z-[90] overflow-hidden border border-slate-100"
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] bg-white rounded-[2.5rem] shadow-2xl z-[90] overflow-hidden border border-slate-100"
           >
-            <div className="p-6 bg-slate-50 flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <Calculator className="w-4 h-4 text-slate-400" />
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Calculator</span>
+            <div className="p-6 bg-slate-900 text-white">
+              <div className="flex justify-between items-center mb-6">
+                <div className="flex items-center gap-2">
+                  <Calculator className="w-4 h-4 text-slate-400" />
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em]">Calculator</span>
+                </div>
+                <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-xl transition-colors">
+                  <X className="w-5 h-5" />
+                </button>
               </div>
-              <button onClick={onClose} className="text-slate-400 hover:text-slate-600">
-                <X className="w-5 h-5" />
-              </button>
+              <div className="text-right space-y-1">
+                <div className="text-slate-400 text-sm font-medium h-6 overflow-hidden truncate">
+                  {equation || '0'}
+                </div>
+                <div className="text-4xl font-display font-extrabold truncate">
+                  {display}
+                </div>
+              </div>
             </div>
 
-            <div className="p-8 bg-white">
-              <div className="text-right mb-8">
-                <p className="text-sm text-slate-300 font-medium h-6">{equation}</p>
-                <p className="text-5xl font-display font-bold text-slate-900 truncate">{display}</p>
-              </div>
-
-              <div className="grid grid-cols-4 gap-3">
-                {buttons.map((btn, i) => (
-                  <button
-                    key={i}
-                    onClick={btn.action}
-                    className={`h-14 flex items-center justify-center text-lg font-bold transition-all active:scale-95 ${
-                      btn.span === 2 ? 'col-span-2' : ''
-                    } ${btn.color || 'text-slate-600 hover:bg-slate-50 rounded-2xl'}`}
-                  >
-                    {btn.label}
-                  </button>
-                ))}
-              </div>
+            <div className="p-4 grid grid-cols-4 gap-2 bg-slate-50">
+              {buttons.map((btn, i) => (
+                <button
+                  key={i}
+                  onClick={btn.action}
+                  className={`h-16 flex items-center justify-center text-lg font-bold transition-all active:scale-95 rounded-2xl ${
+                    btn.span === 2 ? 'col-span-2' : ''
+                  } ${
+                    btn.label === '=' 
+                      ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/20' 
+                      : btn.color?.includes('text-') 
+                        ? 'bg-slate-200 ' + btn.color 
+                        : 'bg-white text-slate-900 shadow-sm border border-slate-100'
+                  }`}
+                >
+                  {btn.label}
+                </button>
+              ))}
             </div>
           </motion.div>
         </>
