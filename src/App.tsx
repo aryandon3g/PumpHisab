@@ -158,7 +158,7 @@ export default function App() {
         historyCount={history.length} 
       />
 
-      <main className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 pb-32">
+      <main className="max-w-7xl mx-auto p-3 sm:p-6 lg:p-8 pb-32">
         {!showHistory && (
           <StatsGrid 
             totalVolumeToday={totalVolumeToday} 
@@ -178,30 +178,30 @@ export default function App() {
               className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8"
             >
               {/* Left Column: Inputs */}
-              <div className="lg:col-span-7 space-y-6 sm:space-y-8">
-                <div className="flex items-center gap-3 px-1">
-                  <div className="w-1.5 h-5 bg-slate-900 rounded-full" />
-                  <h2 className="text-base font-display font-extrabold text-slate-800 uppercase tracking-wider">Shift Configuration</h2>
+              <div className="lg:col-span-7 space-y-3 sm:space-y-8">
+                <div className="flex items-center gap-2 px-1">
+                  <div className="w-1 h-4 bg-slate-900 rounded-full" />
+                  <h2 className="text-[10px] font-display font-extrabold text-slate-800 uppercase tracking-wider">Shift Configuration</h2>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                <div className="grid grid-cols-2 lg:grid-cols-2 gap-3 sm:gap-6">
                   {/* Rate Card */}
                   <motion.div 
                     whileHover={{ y: -2 }}
-                    className="neo-card p-6 sm:p-8 group focus-within:border-slate-300 transition-all"
+                    className="neo-card p-3 sm:p-8 group focus-within:border-slate-300 transition-all"
                   >
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4">Current Rate (₹/Ltr)</label>
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-focus-within:bg-slate-900 group-focus-within:text-white transition-all duration-300">
-                        <IndianRupee className="w-6 h-6 sm:w-7 sm:h-7" />
+                    <label className="block text-[7px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Rate (₹/L)</label>
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 sm:w-14 sm:h-14 bg-slate-50 rounded-lg sm:rounded-xl flex items-center justify-center text-slate-400 group-focus-within:bg-slate-900 group-focus-within:text-white transition-all duration-300">
+                        <IndianRupee className="w-3.5 h-3.5 sm:w-7 sm:h-7" />
                       </div>
                       <input
                         type="text"
                         inputMode="decimal"
                         value={rate}
                         onChange={handleNumberInput(setRate)}
-                        className="flex-1 text-3xl sm:text-4xl font-display font-extrabold outline-none placeholder:text-slate-200 bg-transparent"
-                        placeholder="0.00"
+                        className="flex-1 text-lg sm:text-4xl font-display font-extrabold outline-none placeholder:text-slate-200 bg-transparent btn-no-zoom"
+                        placeholder="0.0"
                       />
                     </div>
                   </motion.div>
@@ -209,143 +209,138 @@ export default function App() {
                   {/* Collected Card */}
                   <motion.div 
                     whileHover={{ y: -2 }}
-                    className="neo-card p-6 sm:p-8 group focus-within:border-slate-300 transition-all relative"
+                    className="neo-card p-3 sm:p-8 group focus-within:border-slate-300 transition-all relative"
                   >
-                    <div className="flex justify-between items-start mb-4">
-                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Cash Collected (₹)</label>
+                    <div className="flex justify-between items-start mb-1.5">
+                      <label className="block text-[7px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest">Collected (₹)</label>
                       <button 
                         onClick={() => setIsCashCounterOpen(true)}
-                        className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-slate-200 transition-colors"
+                        className="p-1 bg-slate-100 text-slate-600 rounded-md hover:bg-slate-200 transition-colors"
                       >
-                        <Calculator className="w-3 h-3" />
-                        Counter
+                        <Calculator className="w-2.5 h-2.5" />
                       </button>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-focus-within:bg-slate-900 group-focus-within:text-white transition-all duration-300">
-                        <IndianRupee className="w-6 h-6 sm:w-7 sm:h-7" />
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 sm:w-14 sm:h-14 bg-slate-50 rounded-lg sm:rounded-xl flex items-center justify-center text-slate-400 group-focus-within:bg-slate-900 group-focus-within:text-white transition-all duration-300">
+                        <IndianRupee className="w-3.5 h-3.5 sm:w-7 sm:h-7" />
                       </div>
                       <input
                         type="text"
                         inputMode="decimal"
                         value={collected}
                         onChange={handleNumberInput(setCollected)}
-                        className="flex-1 text-3xl sm:text-4xl font-display font-extrabold outline-none placeholder:text-slate-200 bg-transparent"
-                        placeholder="0.00"
+                        className="flex-1 text-lg sm:text-4xl font-display font-extrabold outline-none placeholder:text-slate-200 bg-transparent btn-no-zoom"
+                        placeholder="0.0"
                       />
                     </div>
                   </motion.div>
                 </div>
 
                 {/* Meter Section */}
-                <div className="neo-card p-6 sm:p-10 space-y-8 sm:space-y-10 relative overflow-hidden">
+                <div className="neo-card p-3 sm:p-10 space-y-3 sm:space-y-10 relative overflow-hidden">
                   <div className="relative z-10 flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="w-11 h-11 bg-slate-900 rounded-xl flex items-center justify-center text-white shadow-lg">
-                        <Gauge className="w-5 h-5" />
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 bg-slate-900 rounded-md flex items-center justify-center text-white shadow-lg">
+                        <Gauge className="w-3 h-3" />
                       </div>
                       <div>
-                        <label className="text-sm font-display font-extrabold text-slate-800 uppercase tracking-wider leading-none">Meter Readings</label>
-                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Opening & Closing</p>
+                        <label className="text-[9px] font-display font-extrabold text-slate-800 uppercase tracking-wider leading-none">Meter Readings</label>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="relative z-10 grid grid-cols-1 sm:grid-cols-11 items-center gap-4 sm:gap-6">
-                    <div className="sm:col-span-5 space-y-2">
-                      <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Opening</span>
+                  <div className="relative z-10 grid grid-cols-11 items-center gap-2 sm:gap-6">
+                    <div className="col-span-5 space-y-1">
+                      <span className="text-[7px] font-bold text-slate-400 uppercase tracking-widest ml-1">Opening</span>
                       <input
                         type="text"
                         inputMode="decimal"
                         value={openingMeter}
                         onChange={handleNumberInput(setOpeningMeter)}
-                        className="w-full bg-slate-50 px-6 py-4 sm:px-8 sm:py-6 rounded-2xl sm:rounded-[1.5rem] text-2xl sm:text-3xl font-display font-extrabold outline-none focus:bg-white border-2 border-transparent focus:border-slate-200 transition-all"
-                        placeholder="0000.0"
+                        className="w-full bg-slate-50 px-2 py-1.5 sm:px-8 sm:py-6 rounded-lg sm:rounded-[1.5rem] text-xs sm:text-3xl font-display font-extrabold outline-none focus:bg-white border-2 border-transparent focus:border-slate-200 transition-all btn-no-zoom"
+                        placeholder="0.0"
                       />
                     </div>
-                    <div className="sm:col-span-1 flex justify-center">
-                      <div className="w-10 h-10 rounded-full bg-white border border-slate-100 shadow-sm flex items-center justify-center">
-                        <ArrowRight className="w-5 h-5 text-slate-300" />
-                      </div>
+                    <div className="col-span-1 flex justify-center">
+                      <ArrowRight className="w-2.5 h-2.5 text-slate-300" />
                     </div>
-                    <div className="sm:col-span-5 space-y-2">
-                      <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1">Closing</span>
+                    <div className="col-span-5 space-y-1">
+                      <span className="text-[7px] font-bold text-slate-400 uppercase tracking-widest ml-1">Closing</span>
                       <input
                         type="text"
                         inputMode="decimal"
                         value={closingMeter}
                         onChange={handleNumberInput(setClosingMeter)}
-                        className="w-full bg-slate-50 px-6 py-4 sm:px-8 sm:py-6 rounded-2xl sm:rounded-[1.5rem] text-2xl sm:text-3xl font-display font-extrabold outline-none focus:bg-white border-2 border-transparent focus:border-slate-200 transition-all"
-                        placeholder="0000.0"
+                        className="w-full bg-slate-50 px-2 py-1.5 sm:px-8 sm:py-6 rounded-lg sm:rounded-[1.5rem] text-xs sm:text-3xl font-display font-extrabold outline-none focus:bg-white border-2 border-transparent focus:border-slate-200 transition-all btn-no-zoom"
+                        placeholder="0.0"
                       />
                     </div>
                   </div>
 
-                  <div className="relative z-10 pt-6 sm:pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400">
-                        <Droplet className="w-6 h-6" />
+                  <div className="relative z-10 pt-2 sm:pt-8 border-t border-slate-100 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 bg-slate-50 rounded-md flex items-center justify-center text-slate-400">
+                        <Droplet className="w-3 h-3" />
                       </div>
                       <div>
-                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em]">Calculated Volume</p>
-                        <p className="text-sm font-bold text-slate-600">Total Liters Sold</p>
+                        <p className="text-[7px] font-bold text-slate-400 uppercase tracking-widest">Volume</p>
                       </div>
                     </div>
-                    <div className="text-center sm:text-right">
+                    <div className="text-right">
                       <motion.span 
                         key={volume}
                         initial={{ scale: 0.95, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        className="text-4xl sm:text-5xl font-display font-extrabold text-slate-900"
+                        className="text-lg sm:text-5xl font-display font-extrabold text-slate-900"
                       >
                         {volume.toFixed(2)}
                       </motion.span>
-                      <span className="text-lg font-bold text-slate-400 ml-2">Ltr</span>
+                      <span className="text-[8px] font-bold text-slate-400 ml-0.5 uppercase tracking-widest">Ltr</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Right Column: Summary */}
-              <div className="lg:col-span-5 space-y-6 sm:space-y-8">
-                <div className="flex items-center gap-3 px-1">
-                  <div className="w-1.5 h-5 bg-emerald-500 rounded-full" />
-                  <h2 className="text-base font-display font-extrabold text-slate-800 uppercase tracking-wider">Live Analytics</h2>
+              <div className="lg:col-span-5 space-y-3 sm:space-y-8">
+                <div className="flex items-center gap-2 px-1">
+                  <div className="w-1 h-4 bg-emerald-500 rounded-full" />
+                  <h2 className="text-[10px] font-display font-extrabold text-slate-800 uppercase tracking-wider">Live Analytics</h2>
                 </div>
 
-                <div className="space-y-4 sm:space-y-6 sticky top-28">
+                <div className="space-y-3 sm:space-y-6 sticky top-28">
                   {/* Expected Amount Card */}
                   <motion.div 
                     layout
-                    className="bg-slate-900 rounded-[2.5rem] p-8 sm:p-10 text-white shadow-2xl shadow-slate-900/10 relative overflow-hidden group"
+                    className="bg-slate-900 rounded-[1.5rem] sm:rounded-[2.5rem] p-4 sm:p-10 text-white shadow-2xl shadow-slate-900/10 relative overflow-hidden group"
                   >
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl" />
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl" />
                     
-                    <div className="relative z-10 space-y-6 sm:space-y-8">
+                    <div className="relative z-10 space-y-3 sm:space-y-8">
                       <div className="flex justify-between items-start">
-                        <div className="space-y-1">
-                          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.3em]">Expected Revenue</p>
+                        <div className="space-y-0.5">
+                          <p className="text-[8px] font-bold text-slate-400 uppercase tracking-[0.2em]">Expected Revenue</p>
                           <motion.h3 
                             key={expected}
-                            initial={{ y: 10, opacity: 0 }}
+                            initial={{ y: 5, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
-                            className="text-4xl sm:text-5xl font-display font-extrabold tracking-tight"
+                            className="text-2xl sm:text-5xl font-display font-extrabold tracking-tight"
                           >
                             ₹{expected.toLocaleString('en-IN', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
                           </motion.h3>
                         </div>
-                        <div className="bg-white/10 p-4 rounded-2xl backdrop-blur-xl border border-white/10">
-                          <TrendingUp className="w-8 h-8 text-emerald-400" />
+                        <div className="bg-white/10 p-2 sm:p-4 rounded-xl backdrop-blur-xl border border-white/10">
+                          <TrendingUp className="w-5 h-5 sm:w-8 sm:h-8 text-emerald-400" />
                         </div>
                       </div>
                       
-                      <div className="flex items-center gap-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest pt-4 border-t border-white/5">
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      <div className="flex items-center gap-3 text-[8px] font-bold text-slate-400 uppercase tracking-widest pt-2 border-t border-white/5">
+                        <div className="flex items-center gap-1">
+                          <div className="w-1 h-1 rounded-full bg-emerald-400" />
                           Live
                         </div>
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                        <div className="flex items-center gap-1">
+                          <div className="w-1 h-1 rounded-full bg-blue-400" />
                           {volume.toFixed(1)}L Sold
                         </div>
                       </div>
@@ -355,26 +350,26 @@ export default function App() {
                   {/* Difference Status Card */}
                   <motion.div 
                     layout
-                    className={`rounded-[2.5rem] p-8 sm:p-10 border transition-all duration-500 relative overflow-hidden ${
+                    className={`rounded-[1.5rem] sm:rounded-[2.5rem] p-4 sm:p-10 border transition-all duration-500 relative overflow-hidden ${
                     !isValid ? 'bg-white border-slate-100 opacity-60' :
                     isShort ? 'bg-red-50 border-red-100' : 
                     isExcess ? 'bg-emerald-50 border-emerald-100' : 
                     'bg-blue-50 border-blue-100'
                   }`}>
-                    <div className="flex justify-between items-center mb-6 sm:mb-8">
-                      <div className="flex items-center gap-3 sm:gap-4">
-                        <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center ${
+                    <div className="flex justify-between items-center mb-3 sm:mb-8">
+                      <div className="flex items-center gap-2 sm:gap-4">
+                        <div className={`w-10 h-10 sm:w-14 sm:h-14 rounded-lg sm:rounded-2xl flex items-center justify-center ${
                           isShort ? 'bg-red-100 text-red-600' : 
                           isExcess ? 'bg-emerald-100 text-emerald-600' : 
                           'bg-blue-100 text-blue-600'
                         }`}>
-                          {isShort ? <AlertCircle className="w-7 h-7 sm:w-8 sm:h-8" /> : 
-                           isExcess ? <TrendingUp className="w-7 h-7 sm:w-8 sm:h-8" /> : 
-                           <CheckCircle2 className="w-7 h-7 sm:w-8 sm:h-8" />}
+                          {isShort ? <AlertCircle className="w-5 h-5 sm:w-8 sm:h-8" /> : 
+                           isExcess ? <TrendingUp className="w-5 h-5 sm:w-8 sm:h-8" /> : 
+                           <CheckCircle2 className="w-5 h-5 sm:w-8 sm:h-8" />}
                         </div>
                         <div>
-                          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Status</p>
-                          <span className={`text-xs sm:text-sm font-bold uppercase tracking-widest ${
+                          <p className="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Status</p>
+                          <span className={`text-[10px] sm:text-sm font-bold uppercase tracking-widest ${
                             isShort ? 'text-red-600' : isExcess ? 'text-emerald-600' : 'text-blue-600'
                           }`}>
                             {isShort ? 'Shortage' : isExcess ? 'Excess' : 'Perfect'}
@@ -391,19 +386,19 @@ export default function App() {
                             collected: stats.numCollected,
                             difference
                           })}
-                          className="p-3 bg-white/50 hover:bg-white rounded-xl text-slate-600 transition-all border border-slate-200/50"
+                          className="p-2 bg-white/50 hover:bg-white rounded-lg text-slate-600 transition-all border border-slate-200/50"
                         >
-                          <Share2 className="w-4 h-4" />
+                          <Share2 className="w-3.5 h-3.5" />
                         </button>
                       )}
                     </div>
                     
-                    <div className="flex items-baseline gap-2">
+                    <div className="flex items-baseline gap-1">
                       <motion.span 
                         key={difference}
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        className={`text-5xl sm:text-6xl font-display font-extrabold tracking-tighter ${
+                        className={`text-3xl sm:text-6xl font-display font-extrabold tracking-tighter ${
                         isShort ? 'text-red-600' : isExcess ? 'text-emerald-600' : 'text-blue-600'
                       }`}>
                         {isShort ? '-' : isExcess ? '+' : ''}₹{Math.abs(difference).toFixed(1)}
@@ -516,9 +511,9 @@ export default function App() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => setIsStandardCalculatorOpen(true)}
-          className="fixed bottom-32 right-6 lg:bottom-8 lg:right-8 w-14 h-14 bg-slate-900 text-white rounded-2xl shadow-2xl flex items-center justify-center z-50 hover:bg-slate-800 transition-colors"
+          className="fixed bottom-24 right-4 lg:bottom-8 lg:right-8 w-12 h-12 bg-slate-900 text-white rounded-xl shadow-2xl flex items-center justify-center z-50 hover:bg-slate-800 transition-colors"
         >
-          <Calculator className="w-6 h-6" />
+          <Calculator className="w-5 h-5" />
         </motion.button>
       </main>
     </div>
